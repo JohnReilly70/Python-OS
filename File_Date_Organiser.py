@@ -4,7 +4,8 @@ import errno
 
 """
 Program Created folders per Year & Month.
-File must be formatted as YY-MM-DD
+Files must be in the current folder of the python file
+Files must be formatted as YY-MM-DD.
 file_format allows any file type to be organised.
 DEFAULT file_format is a text file (.txt)
 """
