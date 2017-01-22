@@ -100,7 +100,7 @@ def File_Date_Organiser(absolute_path):
 
                 try:
                     date_formatted = pulling_metadata_date(file)
-                except KeyError as KError:
+                except KeyError:
                     print('Images Do not Contain Date Information in their METADATA')
                     continue
                 try:
@@ -119,5 +119,21 @@ def File_Date_Organiser(absolute_path):
 '''
 CHANGE DIRECTORY BELOW
 '''
-File_Date_Organiser("C:\Example") #Put the Explicit directory of the folder you wish to organise
-#Update to something prettier
+
+
+
+def main():
+    directory_address = input("Enter Directory with pictures you wish to organise by Date YYYY-MM:\n")
+    confirm_directory_address = input("Confirm Directory by retyping:\n")
+
+    if directory_address == confirm_directory_address:
+        if os.path.isdir(confirm_directory_address):
+            File_Date_Organiser(directory_address)
+        else:
+            print("Directory: {}\nDoes Not Exist".format(confirm_directory_address))#Put the Explicit directory of the folder you wish to organise
+            main()
+    else:
+        print("confirmation Directories did not match")
+        main()
+if __name__ == "__main__":
+    main()
