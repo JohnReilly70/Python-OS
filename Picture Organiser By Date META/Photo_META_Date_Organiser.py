@@ -17,6 +17,7 @@ def get_exif_data(image):
     if info:
         for tag, value in info.items():
             decoded = TAGS.get(tag, tag)
+            exif_data[decoded] = value
             if decoded == "GPSInfo":
                 gps_data = {}
                 for t in value:
@@ -24,9 +25,6 @@ def get_exif_data(image):
                     gps_data[sub_decoded] = value[t]
 
                 exif_data[decoded] = gps_data
-            else:
-                exif_data[decoded] = value
-
     return exif_data
 
 
