@@ -58,7 +58,7 @@ def get_lat_lon(exif_data):
         gps_longitude = gps_info.get('GPSLongitude', None)
         gps_longitude_ref = gps_info.get('GPSLongitudeRef', None)
 
-        if gps_latitude and gps_latitude_ref and gps_longitude and gps_longitude_ref:
+        if all([gps_latitude, gps_latitude_ref, gps_longitude, gps_longitude_ref]):
             lat = _convert_to_degress(gps_latitude)
             if gps_latitude_ref != "N":
                 lat = 0 - lat
@@ -87,16 +87,16 @@ def File_Date_Organiser(absolute_path):
     for number, file in enumerate(os.listdir()):
         if os.path.isfile(file):
             print (number,':',file)
-            if file.upper().endswith('.JPG') or file.endswith('.TIF') or file.endswith('.WAV'):
-
+            valid_exts = ['JPG', 'TIF', 'WAV']
+            _, ext = os.path.splitext(file)
+            if ext.upper() in valid_exts:
                 try:
                     date_formatted = pulling_metadata_date(file)
+                    folder_name = (str(date_formatted[:4])+'-'+str(date_formatted[5:7]))
+                    os.mkdir('{}'.format(folder_name))
                 except KeyError:
                     print('Images Do not Contain Date Information in their METADATA')
                     continue
-                try:
-                    folder_name = (str(date_formatted[:4])+'-'+str(date_formatted[5:7]))
-                    os.mkdir('{}'.format(folder_name))
                 except OSError as exc:
                     if exc.errno != errno.EEXIST:
                         raise exc
